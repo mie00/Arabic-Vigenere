@@ -93,8 +93,15 @@ var subt_letter = function(a, b){
     return (_a === undefined)?[a,false]:(_b === undefined)?[b,false]:[int2alpha(subt(_a, _b)),true];
 }
 
+var normalize_key = function(b){
+    return b.split('').filter(function(x){
+        return alpha2int(x)!==undefined;
+    }).join('');
+}
+
 var decrypt = function(a, b){
     var i = 0;
+    var b = normalize_key(b);
     return a.split('').map(function(x){
         var c = subt_letter(x,b[mod(i,b.length)]);
         if(c[1]){
@@ -105,6 +112,7 @@ var decrypt = function(a, b){
 }
 var encrypt = function(a, b){
     var i = 0;
+    var b = normalize_key(b);
     return a.split('').map(function(x){
         var c = add_letter(x,b[mod(i,b.length)]);
         if(c[1]){
